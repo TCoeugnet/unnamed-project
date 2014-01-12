@@ -1,0 +1,3 @@
+# Temp files #
+/example-project/tmp/*
+/example-project/app/tmp/*
