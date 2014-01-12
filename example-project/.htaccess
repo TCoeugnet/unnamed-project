@@ -1,0 +1,29 @@
+# Enable rewrite engine and route requests to framework
+RewriteEngine On
+
+# Some servers require you to specify the `RewriteBase` directive
+# In such cases, it should be the path (relative to the document root)
+# containing this .htaccess file
+#
+#RewriteBase /
+
+#On va utiliser un flag nomme RESOURCE_FILE qui vaudra 1 si on a demande un fichier statique, et 0 sinon
+#On remet la valeur du flag RESOURCE_FILE a 0 (quelle que soit la requete)
+RewriteRule ^.*$ - [E=RESOURCE_FILE:0]
+
+#Tout ce qui commence par /public/ est redirigé dans le dossier public. Les fichiers statiques sont alors servis
+RewriteRule ^/?public(.*)$ app/resources$1 [E=RESOURCE_FILE:1]
+
+#S'il s'agit d'un fichier statique et que ce fichier existe, alors on le sert. S'il n'existe pas, on ira dans le controleur principal
+RewriteCond %{ENV:RESOURCE_FILE} =1
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(.*)$ - [END]
+
+#On redirige toutes les requetes vers des fichiers non statiques vers le controleur principal
+RewriteCond %{ENV:RESOURCE_FILE} !=1
+RewriteRule .* app.php [L,QSA]
+
+#Cette ligne est tiree de la documentation de FatFree, elle permet de transmettre l'entete Authorization du client pour des ressources protegees par .htaccess / .htpassword
+RewriteCond %{ENV:RESOURCE_FILE} !=1
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+

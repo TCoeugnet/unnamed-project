@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Index</title>
+		
+		<!-- STYLESHEETS -->
+		
+		<!-- /STYLESHEETS -->
+		
+		<style>
+		
+		</style>
+	<body>
+		<h1>Index</h1>
+		<p>
+			Voici l'index.
+		</p>
+		
+		<h2>Liste des paramètres :</h2>
+		<ul>
+		{% for nomParam, valeurParam in params %}
+			<li>{{ nomParam }} = {{ valeurParam }}</li>
+		{% else %}
+			<li>Pas de paramètre (ce qui est impossible mais bon..)</li>
+		{% endfor %}
+		</ul>
+		
+		<p>
+			On remarque que le parametre ayant pour clé '0' sera toujours présent et correspond à l'url par laquelle on provient
+		</p>
+		<!-- SCRIPTS -->
+		
+		<!-- /SCRIPTS -->
+		
+		<script type="text/javascript">
+
+		
+		</script>
+	</body>
+</html>
